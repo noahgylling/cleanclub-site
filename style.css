@@ -1,0 +1,678 @@
+/* ============================================================
+   CLEANCLUB — VARIANT 5 · "ELEGANT"
+   Grøn hero, hvid krop, grøn afslutning.
+   ============================================================ */
+
+:root{
+  /* Grøn — mørk brandgrøn */
+  --green:#2C4638;
+  --green-dp:#243A2E;
+  --green-dk:#1C2E24;
+  --green-lt:#365443;
+
+  /* Lys side */
+  --paper:#FFFFFF;
+  --paper-2:#F7F6F1;
+  --paper-3:#EFEDE4;
+
+  /* Tekst på lyst */
+  --ink:#1E3125;
+  --ink-2:#5A665C;
+  --ink-3:#8B948C;
+  --line:#E5E2D8;
+
+  /* Tekst på grønt */
+  --cream:#F6F3EA;
+  --cream-2:rgba(246,243,234,.76);
+  --cream-3:rgba(246,243,234,.42);
+
+  --gold:#D9A93F;
+  --gold-lt:#E4BC63;
+  --gold-dk:#B98A26;
+  --gold-mut:#C3A263;
+
+  --serif:"Playfair Display",Georgia,"Times New Roman",serif;
+  --sans:"Jost",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+/* Luft over ankermål, så det faste mockup-banner ikke dækker overskriften efter et scroll */
+#ydelser,#priser,#omraader,#kontakt,#vinduer,#hojtryk,#erhverv,#paavej{scroll-margin-top:56px}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:300;font-size:17px;line-height:1.7;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+
+/* ---------- Mockup-banner ---------- */
+.mock{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:var(--green-dk);color:var(--cream-3);
+  text-align:center;padding:7px 16px;
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+}
+
+.wrap{width:100%;max-width:1380px;margin:0 auto;padding:0 clamp(20px,3.5vw,46px)}
+.narrow{max-width:960px}
+
+/* ============ TYPOGRAFI ============ */
+h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:-.012em;line-height:1.06}
+h1{font-size:clamp(42px,7vw,96px);line-height:.98}
+h2{font-size:clamp(31px,4.2vw,58px)}
+h3{font-size:clamp(20px,1.9vw,26px);line-height:1.2}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:16px;
+  font-size:11px;letter-spacing:.30em;text-transform:uppercase;
+  color:var(--gold-mut);
+}
+.eyebrow::before,.eyebrow::after{
+  content:"";width:clamp(28px,4vw,60px);height:1px;background:currentColor;opacity:.5;
+}
+.eyebrow.left::before{display:none}
+
+.lede{font-size:clamp(15px,1.2vw,17.5px);line-height:1.78;color:var(--ink-2);font-weight:300}
+.on-green .lede{color:var(--cream-2)}
+
+/* ============ KNAPPER ============ */
+.pill{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  border-radius:999px;font-size:11.5px;letter-spacing:.19em;
+  text-transform:uppercase;font-weight:400;white-space:nowrap;
+  transition:.28s var(--ease);
+}
+.pill-ghost{
+  padding:13px 26px;color:var(--cream);
+  border:1px solid rgba(246,243,234,.30);
+  background:rgba(246,243,234,.05);backdrop-filter:blur(6px);
+}
+.pill-ghost:hover{background:rgba(246,243,234,.13);border-color:rgba(246,243,234,.5)}
+.pill-gold{
+  padding:19px 42px;background:var(--gold);color:#23331F;
+  font-weight:500;letter-spacing:.17em;
+  box-shadow:0 12px 34px -12px rgba(217,169,63,.6);
+}
+.pill-gold:hover{background:var(--gold-lt);transform:translateY(-2px)}
+.pill-dark{padding:17px 36px;background:var(--green);color:var(--cream);font-weight:400}
+.pill-dark:hover{background:var(--green-dp);transform:translateY(-2px)}
+.pill-line{padding:17px 34px;border:1px solid var(--line);color:var(--ink)}
+.pill-line:hover{border-color:var(--green);background:var(--green);color:var(--cream)}
+
+/* ============ HERO ============ */
+.hero{
+  position:relative;min-height:100vh;min-height:100svh;
+  display:flex;flex-direction:column;
+  padding-top:34px;overflow:hidden;background:var(--green);color:var(--cream);
+}
+.hero::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(120% 80% at 50% 18%,rgba(255,255,255,.055) 0%,rgba(255,255,255,0) 58%),
+    radial-gradient(100% 70% at 50% 108%,rgba(0,0,0,.34) 0%,rgba(0,0,0,0) 62%);
+}
+.hero::after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.24;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+.hero > *{position:relative;z-index:2}
+
+/* ---------- Navigation ---------- */
+.nav{padding:20px 0 0}
+.nav .inner{
+  display:flex;align-items:center;justify-content:space-between;gap:28px;
+  padding-bottom:18px;border-bottom:1px solid rgba(246,243,234,.14);
+}
+.brand{display:flex;align-items:center;flex:0 0 auto}
+.brand img{height:clamp(52px,5.4vw,78px);width:auto}
+
+/* Hamburgerknap — vises kun under 1040px, se media query længere nede */
+.burger{
+  display:none;width:44px;height:44px;padding:0;margin-left:auto;
+  border:0;background:none;cursor:pointer;
+  flex-direction:column;align-items:center;justify-content:center;gap:5px;
+}
+.burger span{
+  display:block;width:22px;height:1.5px;background:var(--cream);
+  transition:.28s var(--ease);
+}
+/* De tre streger bliver til et kryds, når menuen er åben */
+.nav.open .burger span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.nav.open .burger span:nth-child(2){opacity:0}
+.nav.open .burger span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.burger:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:3px}
+
+/* CTA'en i mobilmenuen — skjult på desktop, hvor pillen i nav'en bruges */
+.menu-cta{display:none}
+
+.links{display:flex;align-items:center;gap:clamp(18px,2.4vw,36px)}
+.links a{
+  font-size:11.5px;letter-spacing:.19em;text-transform:uppercase;
+  color:var(--cream-2);padding:6px 0;position:relative;transition:color .25s var(--ease);
+}
+.links a::after{
+  content:"";position:absolute;left:0;bottom:0;height:1px;width:0;
+  background:var(--gold);transition:width .3s var(--ease);
+}
+.links a:hover{color:var(--cream)}
+.links a:hover::after{width:100%}
+
+/* ---------- Hero-midte ---------- */
+.hero-mid{
+  flex:1;display:flex;align-items:center;
+  padding-top:clamp(10px,1.6vw,26px);
+  padding-bottom:clamp(74px,8vw,108px);
+}
+.hero-grid{
+  display:grid;grid-template-columns:1.08fr .92fr;
+  gap:clamp(26px,4vw,60px);align-items:center;width:100%;
+}
+.hero-copy{text-align:left}
+.hero-copy .eyebrow{
+  margin-bottom:clamp(14px,1.8vw,24px);
+  color:var(--gold-lt);font-weight:500;
+  font-size:clamp(11.5px,1.05vw,13.5px);letter-spacing:.32em;
+}
+.hero-copy h1{color:var(--cream)}
+.hero-copy h1 .it{display:block;font-style:italic;margin-top:.04em;letter-spacing:.004em}
+.hero-copy .lede{margin-top:clamp(16px,2vw,26px);max-width:42ch;color:var(--cream-2)}
+.hero-copy .pill-gold{margin-top:clamp(24px,2.8vw,36px)}
+
+/* ---------- Maskot med små livstegn ---------- */
+.hero-figure{display:flex;justify-content:center;align-items:flex-end}
+.mascot-wrap{
+  position:relative;display:inline-block;
+  width:min(100%,clamp(220px,26vw,380px));
+  filter:drop-shadow(0 26px 40px rgba(0,0,0,.28));
+}
+.mascot-wrap img{width:100%;height:auto;display:block}
+
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .mascot-wrap img{animation:none}
+}
+
+.hero-foot{position:absolute;left:0;right:0;bottom:clamp(22px,3vw,38px);z-index:3}
+.hero-foot .inner{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.scroll{
+  width:50px;height:50px;border-radius:50%;
+  border:1px solid rgba(246,243,234,.26);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--cream-2);font-size:15px;transition:.28s var(--ease);
+}
+.scroll:hover{background:rgba(246,243,234,.10);color:var(--cream);transform:translateY(3px)}
+.book{padding:14px 24px}
+.book svg{width:14px;height:14px;opacity:.85}
+.book .chev{width:10px;height:10px;opacity:.7}
+
+/* ============ SEKTIONER ============ */
+section{position:relative}
+.pad{padding:clamp(72px,8.5vw,132px) 0}
+.pad-sm{padding:clamp(48px,5.5vw,84px) 0}
+.tint{background:var(--paper-2)}
+.on-green{background:var(--green);color:var(--cream)}
+.on-green h2,.on-green h3{color:var(--cream)}
+
+.sec-head{max-width:640px}
+.sec-head.mid{margin:0 auto;text-align:center}
+.sec-head h2{margin-top:20px}
+.sec-head .lede{margin-top:18px}
+.sec-head.mid .lede{margin-left:auto;margin-right:auto}
+
+/* ---------- Tillidsbjælke ---------- */
+.trust{border-bottom:1px solid var(--line)}
+.trust .inner{display:grid;grid-template-columns:repeat(4,1fr)}
+.trust-item{padding:30px 26px;text-align:center;border-right:1px solid var(--line)}
+.trust-item:last-child{border-right:none}
+.trust-item .t{
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold-dk);margin-bottom:8px;
+}
+.trust-item .d{font-size:14px;color:var(--ink-2);line-height:1.55}
+
+/* ---------- Ydelseskort ---------- */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2.2vw,30px);margin-top:clamp(38px,4.5vw,62px)}
+.card{
+  border:1px solid var(--line);border-radius:3px;padding:clamp(28px,2.6vw,38px);
+  display:flex;flex-direction:column;background:var(--paper);
+  transition:.3s var(--ease);
+}
+.card:hover{border-color:var(--gold-mut);transform:translateY(-4px);box-shadow:0 22px 48px -30px rgba(30,49,37,.35)}
+.card .no{font-size:11px;letter-spacing:.24em;color:var(--gold-mut);margin-bottom:16px}
+.card h3{margin-bottom:12px}
+.card p{font-size:14.5px;color:var(--ink-2);line-height:1.7;flex:1}
+.card .from{
+  margin-top:26px;padding-top:18px;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:baseline;
+}
+.card .from span{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)}
+.card .from b{font-family:var(--serif);font-size:24px;font-weight:400;color:var(--ink)}
+
+/* ---------- Trin ---------- */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,2.6vw,40px);margin-top:clamp(38px,4.5vw,62px)}
+.step .n{
+  font-family:var(--serif);font-size:15px;color:var(--gold-dk);
+  padding-bottom:14px;margin-bottom:18px;border-bottom:1px solid var(--line);
+}
+.step h3{font-size:clamp(17px,1.5vw,21px);margin-bottom:10px}
+.step p{font-size:14.5px;color:var(--ink-2);line-height:1.7}
+
+/* ---------- Split ---------- */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,80px);align-items:center}
+.split-list{list-style:none;margin-top:26px}
+.split-list li{
+  position:relative;padding-left:26px;margin-bottom:13px;
+  font-size:15px;color:var(--ink-2);line-height:1.6;
+}
+.split-list li::before{
+  content:"";position:absolute;left:0;top:11px;width:7px;height:1px;background:var(--gold);
+}
+.figure{
+  aspect-ratio:4/3.4;background:var(--green);border-radius:3px;
+  position:relative;overflow:hidden;
+}
+.figure svg{width:100%;height:100%}
+
+/* ---------- Citater ---------- */
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2.4vw,34px);margin-top:clamp(38px,4.5vw,62px)}
+.quote{border-top:1px solid var(--line);padding-top:28px}
+.quote .stars{color:var(--gold);letter-spacing:4px;font-size:13px;margin-bottom:18px}
+.quote q{
+  display:block;font-family:var(--serif);font-size:clamp(17px,1.5vw,20px);
+  line-height:1.5;color:var(--ink);quotes:none;font-style:italic;
+}
+.quote .who{margin-top:22px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)}
+.quote .who b{display:block;color:var(--ink);font-weight:400;letter-spacing:.1em;font-size:13px;margin-bottom:4px}
+
+/* ---------- FAQ ---------- */
+.faq{margin-top:clamp(34px,4vw,54px);border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{
+  list-style:none;cursor:pointer;padding:26px 0;
+  display:flex;justify-content:space-between;align-items:flex-start;gap:24px;
+  font-family:var(--serif);font-size:clamp(17px,1.6vw,21px);color:var(--ink);
+  transition:color .25s var(--ease);
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:hover{color:var(--gold-dk)}
+.faq summary .pm{
+  flex:0 0 auto;width:24px;height:24px;border-radius:50%;
+  border:1px solid var(--line);color:var(--gold-dk);
+  display:flex;align-items:center;justify-content:center;font-size:15px;line-height:1;
+  font-family:var(--sans);transition:.3s var(--ease);
+}
+.faq details[open] summary .pm{transform:rotate(45deg);background:var(--paper-2)}
+.faq .ans{padding:0 0 28px;font-size:15px;color:var(--ink-2);line-height:1.78;max-width:74ch}
+
+/* ---------- Slut-CTA ---------- */
+.endcta{text-align:center;position:relative;overflow:hidden}
+.endcta::after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.2;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+.endcta .wrap{position:relative;z-index:2}
+.endcta h2{margin:20px auto 0;max-width:16ch}
+.endcta .lede{margin:20px auto 0;max-width:48ch}
+.endcta .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.endcta .hours{margin-top:28px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--cream-3)}
+
+/* ---------- Footer ---------- */
+.foot{background:var(--green-dk);color:var(--cream-2);padding:clamp(56px,6vw,86px) 0 28px}
+.foot-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:clamp(28px,3vw,46px);padding-bottom:44px}
+.foot-brand img{height:64px;width:auto;margin-bottom:20px}
+.foot-brand p{font-size:14px;color:var(--cream-3);max-width:30ch;line-height:1.7}
+.foot-col h4{
+  font-family:var(--sans);font-weight:400;font-size:10.5px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--gold-mut);margin-bottom:16px;
+}
+.foot-col a,.foot-col p{display:block;font-size:14.5px;padding:5px 0;color:var(--cream-2);transition:.2s}
+.foot-col a:hover{color:var(--cream)}
+.foot-bar{
+  border-top:1px solid rgba(246,243,234,.14);padding-top:22px;
+  display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--cream-3);
+}
+
+/* ---------- Prisberegner ---------- */
+.calc{
+  display:grid;grid-template-columns:1.06fr .94fr;
+  background:var(--green);border-radius:3px;overflow:hidden;
+  margin-top:clamp(38px,4.5vw,58px);
+  box-shadow:0 40px 90px -50px rgba(30,49,37,.55);
+}
+.calc-left{padding:clamp(24px,2.4vw,34px);color:var(--cream)}
+.calc-right{background:var(--paper);padding:clamp(24px,2.4vw,34px);display:flex;flex-direction:column}
+
+/* Niveau 1 — hvilken ydelse. Den tunge, gyldne beslutning. */
+.seg{
+  display:inline-flex;flex-wrap:wrap;gap:4px;padding:4px;margin-bottom:16px;
+  border:1px solid rgba(246,243,234,.22);border-radius:999px;
+}
+.seg button{
+  font:inherit;background:none;border:0;cursor:pointer;
+  padding:10px 24px;border-radius:999px;
+  font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--cream-2);transition:.25s var(--ease);
+}
+.seg button.on{background:var(--gold);color:#23331F}
+.seg button:not(.on):hover{color:var(--cream)}
+
+/* Niveau 2 — privat eller erhverv. Lettere, så hierarkiet er tydeligt. */
+.seg-kunde{
+  display:flex;gap:26px;margin-bottom:clamp(22px,2.4vw,32px);
+  border-bottom:1px solid rgba(246,243,234,.14);
+}
+.seg-kunde button{
+  font:inherit;background:none;border:0;cursor:pointer;
+  padding:0 0 10px;margin-bottom:-1px;
+  font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--cream-3);border-bottom:1px solid transparent;
+  transition:.25s var(--ease);
+}
+.seg-kunde button.on{color:var(--cream);border-bottom-color:var(--gold)}
+.seg-kunde button:not(.on):hover{color:var(--cream-2)}
+.seg-kunde button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+.panel[hidden]{display:none}
+
+.field{margin-bottom:clamp(16px,1.7vw,22px)}
+.field:last-child{margin-bottom:0}
+.field[hidden]{display:none}
+.fl{
+  display:block;font-size:10px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold-mut);margin-bottom:9px;
+}
+.opts{display:flex;flex-wrap:wrap;gap:7px}
+.opt{
+  font:inherit;background:none;cursor:pointer;text-align:left;
+  border:1px solid rgba(246,243,234,.20);border-radius:999px;
+  padding:9px 16px;display:inline-flex;align-items:baseline;gap:7px;
+  font-size:13.5px;color:var(--cream-2);transition:.22s var(--ease);white-space:nowrap;
+}
+.opt:hover{border-color:rgba(246,243,234,.42);color:var(--cream)}
+.opt .meta{font-size:11px;color:var(--cream-3)}
+.opt[data-on]{border-color:var(--gold);background:rgba(217,169,63,.16);color:var(--cream)}
+.opt[data-on] .meta{color:var(--gold)}
+.opt:focus-visible,.seg button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* ---------- Skyder (antal ruder / m²) ---------- */
+.slide{display:flex;align-items:center;gap:18px}
+.slide input[type=range]{
+  --fyld:50%;
+  -webkit-appearance:none;appearance:none;
+  flex:1;height:2px;border-radius:2px;background:rgba(246,243,234,.20);
+  background-image:linear-gradient(var(--gold),var(--gold));
+  background-size:var(--fyld) 100%;background-repeat:no-repeat;
+  cursor:pointer;
+}
+.slide input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:18px;height:18px;border-radius:50%;
+  background:var(--gold);border:3px solid var(--green);
+  box-shadow:0 0 0 1px var(--gold);cursor:grab;transition:transform .18s var(--ease);
+}
+.slide input[type=range]::-webkit-slider-thumb:active{transform:scale(1.18);cursor:grabbing}
+.slide input[type=range]::-moz-range-thumb{
+  width:14px;height:14px;border-radius:50%;
+  background:var(--gold);border:3px solid var(--green);
+  box-shadow:0 0 0 1px var(--gold);cursor:grab;
+}
+.slide input[type=range]::-moz-range-track{height:2px;background:rgba(246,243,234,.20)}
+.slide input[type=range]::-moz-range-progress{height:2px;background:var(--gold)}
+.slide input[type=range]:focus-visible{outline:2px solid var(--gold);outline-offset:6px}
+.slide-val{
+  font-size:12.5px;color:var(--cream-2);white-space:nowrap;
+  min-width:76px;text-align:right;
+}
+.slide-val b{
+  font-family:var(--serif);font-size:24px;font-weight:400;
+  color:var(--cream);margin-right:5px;
+}
+.slide-hint{margin-top:10px;font-size:12.5px;color:var(--cream-3);font-style:italic}
+
+.res-eyebrow{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-dk)}
+.res-price{
+  font-family:var(--serif);font-size:clamp(38px,4.2vw,54px);
+  color:var(--ink);line-height:1;margin:12px 0 7px;font-weight:400;
+}
+.res-price small{font-family:var(--sans);font-size:17px;color:var(--ink-3);font-weight:300}
+.res-note{font-size:13.5px;color:var(--ink-3);line-height:1.6}
+.res-lines{list-style:none;margin:20px 0 0;border-top:1px solid var(--line)}
+.res-lines li{
+  display:flex;justify-content:space-between;gap:16px;
+  padding:10px 0;border-bottom:1px solid var(--line);font-size:13.5px;color:var(--ink-2);
+}
+.res-lines li b{font-weight:400;color:var(--ink)}
+.res-save{
+  margin-top:20px;padding:15px 18px;background:var(--paper-2);
+  border-left:2px solid var(--gold);
+}
+.res-save .t{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-dk);margin-bottom:7px}
+.res-save p{font-size:13.5px;color:var(--ink-2);line-height:1.65}
+.res-cta{margin-top:22px}
+.res-cta .pill{width:100%}
+.res-fine{margin-top:14px;font-size:12px;color:var(--ink-3);text-align:center}
+
+.calc-static{
+  margin-top:16px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-3);text-align:center;
+}
+
+/* ============ RESPONSIVT ============ */
+@media (max-width:1040px){
+  .links{display:none}
+  .burger{display:flex}
+  .nav{position:relative;z-index:20}
+
+  /* Menuen folder ud lige under nav-bjælken i fuld bredde */
+  .nav.open .links{
+    display:flex;flex-direction:column;align-items:stretch;gap:0;
+    position:absolute;left:0;right:0;top:100%;
+    background:var(--green-dk);
+    border-bottom:1px solid rgba(246,243,234,.14);
+    padding:6px clamp(20px,3.5vw,46px) 14px;
+    box-shadow:0 24px 40px -28px rgba(0,0,0,.6);
+  }
+  .nav.open .links a{
+    padding:15px 0;font-size:12px;
+    border-bottom:1px solid rgba(246,243,234,.10);
+  }
+  .nav.open .links a:last-child{border-bottom:0}
+  .nav.open .links a::after{display:none}
+
+  /* Logo til venstre, hamburger yderst til højre. Nav-pillen ville ellers
+     klemme burgeren ind i midten, fordi .inner bruger space-between.
+     "Få et tilbud" flyttes i stedet ned i menuen som gylden knap, så
+     undersiderne ikke mister deres eneste CTA over folden. */
+  .nav .inner > .pill-ghost{display:none}
+  .nav.open .menu-cta{
+    display:block;text-align:center;border-bottom:0;
+    margin-top:14px;padding:15px 20px;
+    background:var(--gold);color:#23331F;border-radius:999px;
+    font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  }
+
+  /* Stregen i eyebrow'en hænger skævt, når teksten er centreret */
+  .hero-copy .eyebrow::after,.pagehead .eyebrow::after{display:none}
+  .hero-copy .eyebrow{text-align:center}
+
+  .calc{grid-template-columns:1fr}
+  .hero-grid{grid-template-columns:1fr;gap:26px;text-align:center}
+  .hero-copy{text-align:center}
+  .hero-copy h1,.hero-copy .lede{margin-left:auto;margin-right:auto}
+  .mascot-wrap{width:clamp(180px,42vw,270px)}
+  .cards,.plans,.quotes{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr 1fr}
+  .split{grid-template-columns:1fr;gap:34px}
+  .foot-top{grid-template-columns:1fr 1fr}
+  .trust .inner{grid-template-columns:1fr 1fr}
+  .trust-item:nth-child(2n){border-right:none}
+  .trust-item:nth-child(-n+2){border-bottom:1px solid var(--line)}
+}
+@media (max-width:660px){
+  .cards,.plans,.quotes,.steps{grid-template-columns:1fr}
+  .trust .inner{grid-template-columns:1fr}
+  .trust-item{border-right:none;border-bottom:1px solid var(--line)}
+  /* Footeren bliver meget høj og tom med én spalte. To spalter halverer
+     højden. Brandblokken og kontakt fylder hele bredden, fordi deres linjer
+     er for lange til en halv skærm — kun de to korte linklister deles op. */
+  .foot-top{grid-template-columns:1fr 1fr;gap:30px 20px;padding-bottom:34px}
+  .foot-brand{grid-column:1 / -1}
+  .foot-col:last-child{grid-column:1 / -1}
+  .foot-bar{justify-content:center;text-align:center;gap:10px}
+  .brand img{height:44px}
+  .pill-ghost{padding:11px 18px;font-size:10.5px;letter-spacing:.14em}
+  .hero-foot .inner{justify-content:center}
+  .scroll{display:none}
+  .eyebrow{font-size:9.5px;letter-spacing:.22em}
+
+  /* Skyderen skal have hele bredden på telefon — ellers er den for smal at ramme */
+  .slide{flex-direction:column;align-items:stretch;gap:14px}
+  .slide-val{text-align:left;min-width:0}
+  .seg,.seg button{width:100%;justify-content:center}
+  .seg{flex-wrap:nowrap}
+}
+
+/* ============================================================
+   TILFØJELSER — undersider, områder, maskotter, erhvervsbånd
+   ============================================================ */
+
+/* ---------- Sidehoved på undersider ---------- */
+.pagehead{
+  background:var(--green);color:var(--cream);
+  padding:calc(34px + clamp(60px,7vw,104px)) 0 clamp(60px,7vw,104px);
+  position:relative;overflow:hidden;text-align:center;
+}
+.pagehead::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 80% at 50% 0%,rgba(255,255,255,.06) 0%,rgba(255,255,255,0) 60%);
+}
+.pagehead::after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.22;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+.pagehead > *{position:relative;z-index:2}
+.pagehead h1{font-size:clamp(36px,5.4vw,72px);color:var(--cream);margin-top:20px}
+.pagehead .lede{margin:20px auto 0;max-width:52ch;color:var(--cream-2)}
+
+/* Navigation på undersider ligger på grøn bund uden hero.
+   Forsiden får sin luft over nav'en fra .hero's padding-top på 34px.
+   Undersiderne har ingen hero, så uden dette lå logoet klemt bag det
+   faste banner. 34px + nav'ens egne 20px = samme afstand som forsiden. */
+.subnav{
+  background:var(--green);position:relative;z-index:5;
+  padding-top:calc(34px + 20px);
+}
+
+/* ---------- Maskot-illustrationer ---------- */
+.mascot{width:100%;height:auto;display:block}
+.svc-figure{
+  display:flex;align-items:flex-end;justify-content:center;
+  padding:10px 0 0;
+}
+.svc-figure img{max-height:230px;width:auto}
+
+/* Ydelsesblok på tjenester-siden */
+.svc-block{
+  display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(30px,5vw,72px);
+  align-items:center;margin-bottom:clamp(56px,7vw,104px);
+}
+.svc-block:last-child{margin-bottom:0}
+.svc-block.flip .svc-art{order:2}
+/* Ingen boks bag maskotterne — de står direkte på sektionens baggrund */
+.svc-art{
+  display:flex;align-items:center;justify-content:center;
+}
+.svc-art img{max-height:480px;width:auto}
+.svc-block h2{font-size:clamp(28px,3.4vw,42px);margin-bottom:16px}
+.svc-block .lede{margin-bottom:20px}
+
+.inc{list-style:none;margin-top:20px}
+.inc li{position:relative;padding-left:26px;margin-bottom:11px;font-size:15px;color:var(--ink-2);line-height:1.6}
+.inc li::before{content:"";position:absolute;left:0;top:11px;width:8px;height:1px;background:var(--gold)}
+.inc.no li::before{background:var(--ink-3);width:8px;height:1px}
+
+/* ---------- Erhvervsbånd ---------- */
+.band{background:var(--green);color:var(--cream);padding:clamp(44px,5vw,72px) 0}
+.band .inner{display:flex;align-items:center;justify-content:space-between;gap:clamp(24px,4vw,56px);flex-wrap:wrap}
+.band h3{color:var(--cream);font-size:clamp(23px,2.6vw,34px);max-width:20ch}
+.band p{color:var(--cream-2);font-size:15px;margin-top:12px;max-width:46ch;line-height:1.7}
+
+/* ---------- Dækningsområde ---------- */
+.area-list{
+  list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:9px;
+  margin:clamp(30px,3.4vw,46px) auto 0;max-width:920px;
+}
+.area-list li{
+  font-size:14.5px;color:var(--ink);
+  border:1px solid var(--line);border-radius:999px;padding:9px 20px;
+  transition:.22s var(--ease);
+}
+.area-list li:hover{border-color:var(--gold-mut)}
+.area-note{
+  margin:clamp(30px,3.4vw,46px) auto 0;padding:22px 26px;
+  background:var(--paper);border-left:2px solid var(--gold);
+  font-size:15px;color:var(--ink-2);line-height:1.75;max-width:66ch;
+}
+
+/* ---------- Om os-teaser på forsiden ---------- */
+.about-split{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(30px,5vw,72px);align-items:center}
+/* Tekst til venstre, billede til højre — den brede spalte følger med teksten */
+.about-split.flip{grid-template-columns:1.1fr .9fr}
+/* Ingen boks bag illustrationen — den står direkte på sidens hvide.
+   Cremen i figurerne (251,247,238) er lige akkurat mørkere end hvid,
+   så den læses stadig uden en tonet baggrund bagved. */
+.about-fig{display:flex;justify-content:center;align-items:center}
+.about-fig img{max-height:340px;width:auto}
+.promise{list-style:none;margin-top:24px}
+.promise li{
+  position:relative;padding-left:30px;margin-bottom:16px;
+  font-size:15px;color:var(--ink-2);line-height:1.65;
+}
+.promise li b{display:block;color:var(--ink);font-weight:400;font-family:var(--serif);font-size:17px;margin-bottom:3px}
+.promise li::before{
+  content:"";position:absolute;left:0;top:10px;width:12px;height:1px;background:var(--gold);
+}
+
+/* ---------- Responsivt for tilføjelser ---------- */
+@media (max-width:1040px){
+  .svc-block{grid-template-columns:1fr;gap:30px}
+  .svc-block.flip .svc-art{order:0}
+  /* .about-split.flip skal med her: den har to klasser og dermed højere
+     specificitet end .about-split alene. Uden den ville flip-layoutet
+     beholde sine to spalter hele vejen ned på telefon. */
+  .area-grid,.about-split,.about-split.flip{grid-template-columns:1fr;gap:30px}
+  /* Stablet vil vi have billedet øverst, så knappen står nederst hvor den hører til */
+  .about-split.flip .about-fig{order:-1}
+}
+@media (max-width:660px){
+  .band .inner{flex-direction:column;align-items:flex-start}
+  .svc-art img,.about-fig img{max-height:240px}
+}
+
+/* ============================================================
+   SIDEVIS SKALERING
+   Hele sitet vises 10 % mindre — svarer til 90 % browserzoom.
+   Ét sted at justere: ændr .9 begge steder (og 1/.9 i hero'en).
+
+   Ikke på telefon: dér er brødteksten i forvejen tæt på minimum,
+   og layoutet er allerede skaleret via clamp() og vw.
+   ============================================================ */
+@media (min-width:661px){
+  body{zoom:.9}
+
+  /* 100vh/100svh måles i uzoomede CSS-pixels og skaleres DEREFTER ned,
+     så hero'en ville kun fylde 90 % af skærmhøjden og efterlade et hul.
+     Divisionen med .9 ophæver nedskaleringen præcist. */
+  .hero{min-height:calc(100vh / .9);min-height:calc(100svh / .9)}
+}
