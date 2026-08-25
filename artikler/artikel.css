@@ -1,0 +1,667 @@
+/* ============================================================
+   CLEANCLUB — ARTIKELLAG  v3
+   ------------------------------------------------------------
+   To krav styrer alt herunder:
+   1) LÆSBARHED. Source Sans 3, 19px, luft mellem linjerne og
+      næsten fuld kontrast. Ingen dekoration i brødteksten.
+   2) SYMMETRI. Én centreret spalte. Alt der pynter, spejler
+      sig om midteraksen. Ingen sidespalte, ingen initial.
+   Brødtekst står venstrestillet inde i den centrerede spalte —
+   centreret brødtekst er smukt i to linjer og træls i tyve.
+
+   Ligger OVEN PÅ style.css, som er urørt.
+   ============================================================ */
+
+:root{
+  --art:"Source Sans 3",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --sp:min(650px,100%);    /* tekstspalten ~72 tegn. Px, ikke ch — ch skalerer
+                              med elementets egen skriftstørrelse, så overskrifter
+                              ellers bliver bredere end brødteksten. */
+  --bred:min(1080px,100%); /* alt visuelt må fylde: kort, grafer, tabeller, gitre */
+  --r1:.7s cubic-bezier(.16,1,.3,1);
+  --r2:.36s cubic-bezier(.4,0,.2,1);
+}
+
+/* ============ LÆSEPROGRESSION ============ */
+.progress{position:fixed;top:0;left:0;height:3px;width:100%;z-index:120;pointer-events:none}
+.progress i{
+  display:block;height:100%;width:0%;
+  background:linear-gradient(90deg,var(--gold-dk),var(--gold),var(--gold-lt));
+  box-shadow:0 0 12px rgba(217,169,63,.5);transition:width .12s linear;
+}
+
+/* ============ ARTIKELHOVED — centreret ============ */
+.art-head{text-align:center}
+.art-head .wrap{position:relative;z-index:3}   /* teksten skal ligge OVER glyffen */
+.art-head .wrap{max-width:900px}
+.art-head h1{max-width:18ch;margin:0 auto;letter-spacing:-.01em}
+.art-head .eyebrow{display:inline-block}
+
+.art-head .eyebrow,.art-head h1,.art-meta{opacity:0;transform:translateY(18px)}
+.art-head.lit .eyebrow{animation:rise .75s cubic-bezier(.16,1,.3,1) forwards}
+.art-head.lit h1{animation:rise .85s .12s cubic-bezier(.16,1,.3,1) forwards}
+.art-head.lit .art-meta{animation:rise .75s .26s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+
+.art-meta{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:10px 24px;margin-top:30px;
+  font-family:var(--art);font-size:13px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--cream-3);
+}
+.art-meta span{display:flex;align-items:center;gap:9px}
+.art-meta span::before{
+  content:"";width:5px;height:5px;border-radius:50%;background:var(--gold);flex:0 0 auto;
+  animation:puls 3.4s ease-out infinite;
+}
+.art-meta span:nth-child(2)::before{animation-delay:1.1s}
+.art-meta span:nth-child(3)::before{animation-delay:2.2s}
+@keyframes puls{0%{box-shadow:0 0 0 0 rgba(217,169,63,.5)}70%,100%{box-shadow:0 0 0 9px rgba(217,169,63,0)}}
+
+/* symmetrisk vinduesglyf bag titlen */
+.art-head .glyph{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:min(430px,72vw);height:min(430px,72vw);opacity:.06;z-index:1;
+  pointer-events:none;color:var(--cream);animation:aande 16s ease-in-out infinite;
+}
+@keyframes aande{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.05)}}
+
+/* ============ DEN RØDE TRÅD — skinnen ============ */
+.rail{
+  position:sticky;top:0;z-index:45;
+  background:rgba(247,246,241,.92);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);padding:16px 0;text-align:center;
+}
+.rail-lab{
+  display:block;font-family:var(--art);font-size:11px;font-weight:600;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);margin-bottom:12px;
+}
+.rail-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.rail a{
+  display:flex;align-items:center;gap:9px;
+  font-family:var(--art);font-size:14px;font-weight:400;color:var(--ink-2);
+  text-decoration:none;padding:9px 16px;border:1px solid var(--line);
+  background:var(--paper);transition:.32s var(--r2);
+}
+.rail a i{
+  font-style:normal;font-size:11px;font-weight:600;letter-spacing:.06em;
+  color:var(--gold-dk);transition:.32s var(--r2);
+}
+.rail a:hover{border-color:var(--gold);color:var(--ink)}
+.rail a.on{background:var(--green);border-color:var(--green);color:var(--cream)}
+.rail a.on i{color:var(--gold-lt)}
+@media(max-width:700px){
+  .rail-row{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+  .rail a{flex:0 0 auto}
+}
+
+/* ============ BRØDTEKST — én centreret spalte ============ */
+.prose{
+  width:100%;max-width:var(--bred);margin:0 auto;
+  font-family:var(--art);font-size:19px;line-height:1.85;
+  color:var(--ink);letter-spacing:0;
+}
+/* Tekst holdes på læsbar bredde … */
+.prose > *{width:var(--sp);margin-inline:auto}
+/* … mens alt visuelt får hele bredden. Begge dele er centreret,
+   så symmetrien holder — det er kun målebåndet der er forskelligt. */
+.prose > .kort,
+.prose > .art-table,
+.prose > .ikoner,
+.prose > .omr-grid,
+.prose > .hub-grid,
+.prose > .art-fine{width:min(var(--bred),100%)}
+@media(max-width:600px){.prose{font-size:18px;line-height:1.8}}
+
+/* manchet: samme font, bare større og centreret */
+.prose > p:first-of-type{
+  font-size:22px;line-height:1.62;color:var(--ink);text-align:center;
+  max-width:560px;margin:0 auto clamp(34px,4vw,50px);
+}
+
+/* overskrifter centreret med spejlet ornament */
+.prose h2{
+  font-family:var(--serif);font-weight:400;text-align:center;
+  font-size:clamp(27px,3vw,38px);line-height:1.22;color:var(--ink);
+  margin:clamp(58px,6vw,92px) 0 26px;scroll-margin-top:130px;letter-spacing:-.01em;
+}
+.prose h2 .num{
+  display:flex;align-items:center;justify-content:center;gap:14px;
+  font-family:var(--art);font-size:12px;font-weight:600;
+  letter-spacing:.26em;text-transform:uppercase;color:var(--gold-dk);margin-bottom:20px;
+}
+.prose h2 .num::before,.prose h2 .num::after{
+  content:"";width:44px;height:1px;background:var(--gold-mut);
+}
+.prose h3{
+  font-family:var(--serif);font-weight:400;text-align:center;
+  font-size:clamp(20px,2vw,25px);color:var(--ink);margin:44px 0 14px;scroll-margin-top:130px;
+}
+.prose p{margin:0 0 24px}
+.prose strong{color:var(--ink);font-weight:600}
+.prose a{
+  color:var(--ink);text-decoration:none;
+  background-image:linear-gradient(var(--gold),var(--gold));
+  background-size:100% 1px;background-repeat:no-repeat;background-position:0 100%;
+  transition:background-size .3s var(--r2),color .3s var(--r2);
+}
+.prose a:hover{background-size:100% 2px;color:var(--gold-dk)}
+
+/* lister — centreret blok, venstrestillet tekst */
+.prose ul,.prose ol{margin:0 auto 26px;padding:0;list-style:none}
+.prose ol{counter-reset:li}
+.prose li{position:relative;padding-left:34px;margin-bottom:15px}
+.prose ul li::before{
+  content:"";position:absolute;left:6px;top:12px;width:8px;height:8px;
+  border:1.5px solid var(--gold-dk);transform:rotate(45deg);transition:.3s var(--r2);
+}
+.prose ul li:hover::before{background:var(--gold)}
+.prose ol li{counter-increment:li}
+.prose ol li::before{
+  content:counter(li,decimal-leading-zero);position:absolute;left:0;top:4px;
+  font-family:var(--art);font-size:12px;font-weight:600;color:var(--gold-dk);letter-spacing:.06em;
+}
+
+/* ============ REVEALS — symmetrisk, fra midten ============ */
+[data-rv]{opacity:0;transform:scale(.985);transition:opacity var(--r1),transform var(--r1)}
+[data-rv].vis{opacity:1;transform:none}
+
+/* ============ FAKTABOKS — spejlet ============ */
+.fact{
+  width:var(--sp);margin:clamp(38px,4.2vw,56px) auto;text-align:center;
+  background:linear-gradient(180deg,var(--paper-2),var(--paper-3));
+  border:1px solid var(--line);border-top:3px solid var(--gold);
+  padding:clamp(32px,3.4vw,46px) clamp(26px,3vw,44px);position:relative;
+}
+.fact h4{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  font-family:var(--art);font-size:11px;font-weight:600;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--gold-dk);margin:0 0 20px;
+}
+.fact h4 svg{width:15px;height:15px;flex:0 0 auto}
+.fact .big{
+  font-family:var(--serif);font-size:clamp(44px,6.4vw,70px);color:var(--ink);
+  line-height:1;display:block;margin-bottom:14px;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;
+}
+.fact p{font-family:var(--art);margin:0 auto;max-width:54ch;font-size:18px;line-height:1.75}
+
+/* ============ ADVARSEL — spejlet ============ */
+.warn{
+  width:var(--sp);margin:clamp(38px,4.2vw,56px) auto;text-align:center;
+  border:1px solid var(--ink);background:var(--paper);
+  padding:clamp(28px,3vw,40px) clamp(26px,3vw,44px);position:relative;
+}
+.warn::before{content:"";position:absolute;inset:5px;border:1px solid var(--line);pointer-events:none}
+.warn h4{
+  display:flex;align-items:center;justify-content:center;gap:10px;position:relative;
+  font-family:var(--art);font-size:11px;font-weight:600;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--ink);margin:0 0 16px;
+}
+.warn h4 svg{width:15px;height:15px;flex:0 0 auto}
+.warn p{position:relative;margin:0 auto;max-width:56ch;font-family:var(--art);font-size:18px}
+
+/* ============ TABEL ============ */
+.art-table{
+  margin:clamp(34px,3.8vw,50px) auto;border-collapse:collapse;
+  font-family:var(--art);font-size:17px;
+}
+.art-table caption{
+  caption-side:top;text-align:center;font-size:11px;font-weight:600;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--gold-dk);padding-bottom:20px;
+}
+.art-table th{
+  font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);padding:0 14px 14px;border-bottom:2px solid var(--ink);text-align:center;
+}
+.art-table th:first-child,.art-table td:first-child{text-align:left;padding-left:0}
+.art-table th:last-child,.art-table td:last-child{text-align:right;padding-right:0}
+.art-table td{
+  padding:18px 14px;border-bottom:1px solid var(--line);
+  color:var(--ink);vertical-align:middle;text-align:center;transition:.25s var(--r2);
+}
+.art-table tr:hover td{background:var(--paper-2)}
+.art-table .num{white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+.art-fine{width:var(--bred);margin:-18px auto 0;text-align:center;font-family:var(--art);font-size:15px;color:var(--ink-3)}
+
+/* ============ CITAT — helt symmetrisk ============ */
+.pull{width:var(--sp);margin:clamp(44px,5vw,68px) auto;padding:clamp(36px,4vw,52px) 0;text-align:center;position:relative}
+.pull::before,.pull::after{content:"";position:absolute;left:50%;transform:translateX(-50%);width:60px;height:1px;background:var(--gold-mut)}
+.pull::before{top:0}
+.pull::after{bottom:0}
+.pull p{
+  font-family:var(--serif);font-style:italic;font-size:clamp(23px,2.8vw,33px);
+  line-height:1.45;color:var(--ink);margin:0 auto;max-width:24ch;
+}
+
+/* ============ FAQ ============ */
+.faq{width:var(--sp);margin:clamp(34px,4vw,52px) auto 0}
+.faq summary{font-family:var(--serif)}
+.faq .ans{font-family:var(--art);font-size:18px;line-height:1.8;color:var(--ink-2);max-width:none}
+
+/* ============ KILDER ============ */
+.kilder{width:var(--sp);margin:clamp(54px,5.6vw,80px) auto 0;border-top:1px solid var(--line);padding-top:30px;font-family:var(--art);text-align:center}
+.kilder h4{font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);margin:0 0 18px}
+.kilder ol{font-size:15px;color:var(--ink-3);line-height:1.8;display:inline-block;text-align:left}
+
+/* ============ CTA-BÅND — centreret ============ */
+.band{
+  background:var(--green);color:var(--cream);text-align:center;
+  padding:clamp(60px,7vw,96px) 0;position:relative;overflow:hidden;
+}
+.band::before{
+  content:"";position:absolute;top:50%;left:50%;width:130%;height:130%;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle at 50% 50%,rgba(217,169,63,.16),transparent 58%);
+}
+.band .wrap{position:relative}
+.band .orn{display:block;width:9px;height:9px;border:1.5px solid var(--gold);transform:rotate(45deg);margin:0 auto 26px}
+.band h2{font-family:var(--serif);font-weight:400;font-size:clamp(28px,3.4vw,42px);color:var(--cream);margin:0 auto 16px;max-width:18ch;line-height:1.24}
+.band p{font-family:var(--art);font-size:19px;line-height:1.7;color:var(--cream-2);margin:0 auto 34px;max-width:46ch}
+
+/* ============ KORT — lige kolonner ============ */
+.rel-grid,.hub-grid,.ov-grid{display:grid;grid-template-columns:1fr;gap:1px;background:var(--line)}
+@media(min-width:760px){
+  .rel-grid,.hub-grid{grid-template-columns:repeat(3,1fr)}
+  .ov-grid{grid-template-columns:repeat(2,1fr)}
+}
+.rel,.hub,.ov{
+  position:relative;overflow:hidden;background:var(--paper);text-decoration:none;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  padding:clamp(30px,3.2vw,42px);transition:background .4s var(--r2);
+}
+.rel::after,.hub::after,.ov::after{
+  content:"";position:absolute;left:50%;bottom:0;width:0;height:2px;
+  background:var(--gold);transform:translateX(-50%);transition:width .45s var(--r1);
+}
+.rel:hover::after,.hub:hover::after,.ov:hover::after{width:100%}
+.rel:hover,.ov:hover{background:var(--paper-2)}
+.hub:hover{background:var(--green)}
+.hub:hover h3,.hub:hover p,.hub:hover .arrow{color:var(--cream)}
+.hub:hover .kind{color:var(--gold-lt)}
+
+.kind{font-family:var(--art);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-dk);margin-bottom:16px;transition:.4s var(--r2)}
+.rel h3,.hub h3,.ov h3{font-family:var(--serif);font-weight:400;font-size:clamp(20px,1.9vw,24px);color:var(--ink);margin:0 0 12px;line-height:1.3;transition:.4s var(--r2)}
+.rel p,.hub p,.ov p{font-family:var(--art);font-size:16.5px;color:var(--ink-2);line-height:1.7;margin:0;transition:.4s var(--r2)}
+.hub p,.ov p{margin-bottom:24px;flex:1}
+.arrow{font-family:var(--art);font-size:14px;font-weight:600;color:var(--ink);transition:.4s var(--r2)}
+
+.ov .no{font-family:var(--serif);font-size:50px;color:var(--paper-3);line-height:1;margin-bottom:22px;transition:.5s var(--r1);font-variant-numeric:tabular-nums}
+.ov:hover .no{color:var(--gold-mut)}
+.ov .cnt{font-family:var(--art);font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);padding-top:20px;border-top:1px solid var(--line);width:100%}
+
+/* ============ OMRÅDEFLISER — lige gitter ============ */
+.omr-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);margin:clamp(34px,3.8vw,50px) auto}
+@media(min-width:760px){.omr-grid{grid-template-columns:repeat(4,1fr)}}
+.omr{position:relative;overflow:hidden;background:var(--paper);padding:24px 18px;text-decoration:none;text-align:center;transition:.4s var(--r2)}
+.omr::after{content:"";position:absolute;inset:0;background:var(--green);transform:scale(0);transition:transform .45s var(--r1)}
+.omr:hover::after{transform:scale(1)}
+.omr > *{position:relative;z-index:1;transition:color .4s var(--r2)}
+.omr b{display:block;font-family:var(--serif);font-weight:400;font-size:20px;color:var(--ink);margin-bottom:6px}
+.omr span{font-family:var(--art);font-size:14px;color:var(--ink-3)}
+.omr:hover b{color:var(--cream)}
+.omr:hover span{color:var(--gold-lt)}
+
+/* ============ TYPEVÆLGER ============ */
+.typebar{background:var(--paper);border-bottom:1px solid var(--line);padding:16px 0;font-family:var(--art)}
+.typebar .wrap{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center}
+.typebar b{font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);width:100%;text-align:center;margin-bottom:6px}
+.typebar a{font-size:15px;font-weight:400;color:var(--ink-2);text-decoration:none;padding:9px 18px;border:1px solid var(--line);background:var(--paper);transition:.32s var(--r2)}
+.typebar a:hover{border-color:var(--gold);color:var(--ink)}
+.typebar a.on{background:var(--green);color:var(--cream);border-color:var(--green)}
+
+/* ============ FLYDENDE CTA ============ */
+.float-cta{
+  position:fixed;right:22px;bottom:22px;z-index:110;transform:translateY(20px);
+  display:flex;align-items:center;gap:11px;
+  background:var(--green);color:var(--cream);text-decoration:none;
+  font-family:var(--art);font-size:16px;font-weight:600;
+  padding:15px 26px;border-radius:60px;box-shadow:0 10px 34px rgba(28,46,36,.32);
+  opacity:0;pointer-events:none;transition:.5s var(--r1);
+}
+.float-cta.on{opacity:1;transform:none;pointer-events:auto}
+.float-cta:hover{background:var(--green-dk);transform:translateY(-3px)}
+@media(max-width:560px){.float-cta{right:14px;bottom:14px;padding:13px 20px;font-size:15px}}
+.float-cta svg{width:17px;height:17px}
+
+/* ============ OVERSIGTSSIDE ============ */
+.ov-intro{width:var(--sp);margin:0 auto;text-align:center}
+.ov-grid{margin-top:clamp(34px,3.8vw,52px)}
+
+/* ============ REDUCERET BEVÆGELSE ============ */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  [data-rv]{opacity:1!important;transform:none!important}
+  .art-head .eyebrow,.art-head h1,.art-meta{opacity:1!important;transform:none!important}
+  .float-cta{opacity:1;transform:none;pointer-events:auto}
+}
+
+/* ============================================================
+   GRAFKORT
+   Kort-i-kort som i referencen, men i husets farver: dyb grøn
+   kurve på papir, guld til det ene tal der betyder noget.
+   Tallene står PÅ grafen — man skal kunne aflæse den uden mus.
+   ============================================================ */
+.kort{
+  margin:clamp(38px,4.2vw,56px) auto;padding:14px;
+  background:linear-gradient(180deg,var(--paper-2),var(--paper-3));
+  border-radius:40px;
+  box-shadow:0 25px 50px -12px rgba(28,46,36,.16),inset 0 0 0 1px rgba(255,255,255,.55);
+}
+.kort-indre{
+  background:var(--paper);border-radius:28px;padding:30px 28px 18px;
+  box-shadow:0 2px 8px rgba(28,46,36,.07),0 0 0 1px rgba(28,46,36,.05);
+}
+.kort figcaption{
+  font-family:var(--art);font-size:15px;line-height:1.6;color:var(--ink-3);
+  text-align:center;padding:16px 22px 4px;margin:0;
+}
+
+.kort-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;text-align:left}
+.kort-lab{
+  font-family:var(--art);font-size:14px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);margin:0;
+}
+.kort-stor{
+  display:block;margin-top:8px;font-family:var(--serif);font-weight:400;
+  font-size:clamp(38px,5.4vw,50px);line-height:1;color:var(--ink);
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums;
+}
+.kort-trend{
+  display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+  font-family:var(--art);font-size:15px;font-weight:600;color:var(--green);
+  background:var(--paper-2);border:1px solid var(--line);
+  padding:9px 16px;border-radius:60px;
+}
+.kort-trend svg{width:16px;height:16px}
+.kort-figur{width:118px;height:100px;flex:0 0 auto;margin:-4px -4px 0 0}
+.kort-figur svg{width:100%;height:100%}
+@media(max-width:520px){.kort-figur{display:none}}
+
+.graf{width:100%;height:auto;display:block;margin-top:6px;overflow:visible}
+.graf-navn{font-family:var(--art);font-size:13px;font-weight:600;fill:var(--ink-3)}
+.graf-boks-t{font-family:var(--art);font-size:14px;font-weight:600;fill:var(--cream)}
+.graf-boks,.graf-prik{transform-box:fill-box;transform-origin:center}
+
+/* ---------- søjler: store, mærkede, ingen akser at tyde ---------- */
+.soejler{display:flex;align-items:flex-end;gap:clamp(10px,2.4vw,22px);margin-top:22px;padding-top:14px}
+.soejle{flex:1;display:flex;flex-direction:column;align-items:center;min-width:0}
+.soejle .spor{width:100%;height:170px;display:flex;align-items:flex-end}
+.soejle b{
+  font-family:var(--serif);font-weight:400;font-size:clamp(19px,2.4vw,26px);
+  color:var(--ink);margin-bottom:10px;white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+.soejle b em{font-style:normal;font-family:var(--art);font-size:.52em;font-weight:600;color:var(--ink-3);margin-left:4px}
+.soejle i{
+  display:block;width:100%;height:0;min-height:0;border-radius:10px 10px 0 0;
+  background:linear-gradient(180deg,var(--green-lt),var(--green));
+  transition:height 1.05s cubic-bezier(.16,1,.3,1);
+}
+.soejle.top i{background:linear-gradient(180deg,var(--gold-lt),var(--gold-dk))}
+.soejler.vis .soejle i{height:var(--h)}
+.soejler .soejle:nth-child(2) i{transition-delay:.09s}
+.soejler .soejle:nth-child(3) i{transition-delay:.18s}
+.soejler .soejle:nth-child(4) i{transition-delay:.27s}
+.soejle span{
+  font-family:var(--art);font-size:14px;font-weight:600;color:var(--ink-2);
+  margin-top:12px;text-align:center;line-height:1.35;
+}
+
+
+/* ---------- ikonrække: informerende, ikke pynt ---------- */
+.ikoner{
+  margin:clamp(34px,3.8vw,50px) auto;
+  display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);
+}
+@media(min-width:700px){.ikoner{grid-template-columns:repeat(3,1fr)}}
+.ikon{background:var(--paper);padding:28px 20px;text-align:center}
+.ikon svg{width:34px;height:34px;color:var(--gold-dk);margin-bottom:14px;stroke-width:1.3}
+.ikon b{display:block;font-family:var(--serif);font-weight:400;font-size:19px;color:var(--ink);margin-bottom:7px}
+.ikon span{font-family:var(--art);font-size:15.5px;line-height:1.6;color:var(--ink-2);display:block}
+.ikon:hover svg{animation:vip .6s ease}
+@keyframes vip{0%,100%{transform:none}30%{transform:translateY(-4px) rotate(-5deg)}60%{transform:translateY(0) rotate(4deg)}}
+
+@media (prefers-reduced-motion: reduce){
+  .soejle i{transition:none}
+  .ikon:hover svg{animation:none}
+}
+
+/* ============================================================
+   TELEFON — de fleste kunder er her, så det her er ikke
+   en nedskalering af desktop. Det er hovedsagen.
+   ============================================================ */
+@media(max-width:720px){
+
+  /* typevælgeren må ikke æde en halv skærm før artiklen starter */
+  .typebar{padding:12px 0}
+  .typebar .wrap{
+    flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;
+    gap:8px;padding-bottom:2px;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+  }
+  .typebar .wrap::-webkit-scrollbar{display:none}
+  .typebar b{width:auto;margin:0 6px 0 0;flex:0 0 auto;text-align:left}
+  .typebar a{flex:0 0 auto;font-size:14px;padding:10px 15px}
+
+  /* skinnen: kompakt, men stadig 44px at ramme */
+  .rail{padding:12px 0}
+  .rail-lab{font-size:10px;letter-spacing:.18em;margin-bottom:9px}
+  .rail a{padding:12px 15px;font-size:14px}
+
+  /* titel og manchet i mobilstørrelse */
+  .art-head h1{font-size:clamp(30px,8.4vw,40px);max-width:none}
+  .prose > p:first-of-type{font-size:19px;line-height:1.5;max-width:none;margin-bottom:32px}
+  .pad{padding:clamp(44px,9vw,64px) 0}
+
+  /* overskrifter tættere på teksten */
+  .prose h2{margin:48px 0 18px;font-size:clamp(24px,6.6vw,30px)}
+  .prose h2 .num{margin-bottom:14px;font-size:11px}
+  .prose h2 .num::before,.prose h2 .num::after{width:26px}
+
+  /* kort og grafer helt ud til kanten-ish */
+  .kort{padding:10px;border-radius:28px}
+  .kort-indre{padding:22px 18px 14px;border-radius:20px}
+  .kort-stor{font-size:38px}
+  .kort-lab{font-size:12.5px}
+  .kort-trend{font-size:14px;padding:8px 14px}
+  .soejle .spor{height:130px}
+  .soejle b{font-size:19px}
+  .soejle span{font-size:13px}
+  .kort figcaption{font-size:14px;padding:14px 6px 2px}
+
+  /* citat og bokse */
+  .pull p{font-size:21px;max-width:none}
+  .fact{padding:26px 20px;border-radius:0}
+  .fact .big{font-size:42px}
+  .fact p,.warn p{font-size:17px}
+  .warn{padding:24px 20px}
+
+  /* flydende knap må ikke dække teksten hele vejen ned */
+  .float-cta{padding:13px 18px;font-size:15px}
+}
+
+/* ---------- grafteksten skal kunne læses på en telefon ---------- */
+@media(max-width:720px){
+  .graf-navn{font-size:15px}
+  .graf-boks-t{font-size:16px}
+}
+
+/* ============================================================
+   TABELLER PÅ TELEFON
+   En firekolonners tabel er ulæselig på 375px, uanset hvor
+   pænt den er sat op. Under 620px bliver hver række derfor et
+   lille kort, hvor kolonnenavnet står foran sin egen værdi.
+   Navnene hentes fra <th> af artikel.js.
+   ============================================================ */
+@media(max-width:620px){
+  .art-table,.art-table tbody,.art-table tr,.art-table td{display:block;width:100%}
+  .art-table thead,.art-table th{display:none}
+  .art-table{border-collapse:separate;border-spacing:0}
+  .art-table caption{padding-bottom:16px}
+  .art-table tr{
+    border:1px solid var(--line);border-radius:14px;
+    padding:6px 16px;margin-bottom:12px;background:var(--paper);
+  }
+  .art-table tr:hover td{background:transparent}
+  .art-table td{
+    display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+    text-align:right;padding:11px 0;border-bottom:1px solid var(--line);
+  }
+  .art-table tr td:last-child{border-bottom:none}
+  .art-table td::before{
+    content:attr(data-t);flex:0 0 auto;text-align:left;
+    font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-3);
+  }
+  /* første celle er rækkens overskrift */
+  .art-table td:first-child{
+    display:block;text-align:left;font-family:var(--serif);font-size:19px;
+    font-weight:400;color:var(--ink);padding:14px 0 10px;
+  }
+  .art-table td:first-child::before{display:none}
+  .art-fine{margin-top:4px}
+}
+
+/* ============================================================
+   TELEFON, RUNDE 2 — symmetri og kompakthed
+   Tre fejl fra Davids egne skærmbilleder:
+   1) ikonrækken efterlod en tom celle når der var tre punkter
+   2) typevælger og skinne blev skåret af i højre side
+   3) footeren fyldte en hel skærm
+   ============================================================ */
+@media(max-width:720px){
+
+  /* 1) tre punkter i to spalter = en tom celle. Det sidste punkt
+        får hele bredden, så rækken lukker symmetrisk. */
+  .ikoner > .ikon:last-child:nth-child(odd){grid-column:1 / -1}
+
+  /* 2) intet må skæres af. Begge striber ombrydes centreret
+        i stedet for at rulle ud over kanten. */
+  .typebar .wrap{flex-wrap:wrap;overflow:visible;justify-content:center;gap:6px}
+  .typebar b{width:100%;text-align:center;margin:0 0 8px}
+  .typebar a{font-size:13px;padding:9px 13px}
+
+  .rail-row{flex-wrap:wrap;overflow:visible;justify-content:center;gap:6px}
+  /* kun det afsnit man står i skriver sit navn — resten er tal.
+     Kompakt, symmetrisk, og tråden er stadig synlig. */
+  .rail a{padding:0;width:44px;height:44px;justify-content:center;gap:0;border-radius:50%}
+  .rail a span{display:none}
+  .rail a i{font-size:13px}
+  .rail a.on{width:auto;padding:0 18px;border-radius:24px;gap:9px}
+  .rail a.on span{display:inline;font-size:14px}
+
+  /* 3) footeren: samme indhold, halv højde */
+  .foot{padding:38px 0 22px}
+  .foot-top{display:grid;grid-template-columns:1fr 1fr;gap:26px 20px}
+  .foot-brand{grid-column:1 / -1;text-align:center}
+  .foot-brand img{max-width:170px;margin:0 auto}
+  .foot-brand p{font-size:14px;line-height:1.55;margin-top:10px;max-width:38ch;margin-inline:auto}
+  .foot-col h4{font-size:11px;letter-spacing:.18em;margin-bottom:10px}
+  .foot-col a,.foot-col p{font-size:14.5px;line-height:1.45;margin:0 0 7px;padding:0}
+  .foot-bar{margin-top:24px;padding-top:16px;font-size:12.5px;text-align:center;flex-direction:column;gap:6px}
+}
+
+/* intet må stikke ud over skærmkanten — heller ikke ved rotation */
+@media(max-width:720px){
+  html,body{max-width:100%}
+  .kort,.art-table,.ikoner,.omr-grid,.prose,.prose > *{max-width:100%}
+}
+
+/* ---------- telefon, finjustering ---------- */
+@media(max-width:720px){
+  /* skinnen ombrød på ganske få px. Mindre cirkler + kortere gab,
+     og det aktive navn kappes med ellipse, så rækken ALTID er én linje. */
+  .rail-row{gap:5px}
+  .rail a{width:40px;height:40px}
+  .rail a.on{max-width:154px;padding:0 14px;height:40px}
+  .rail a.on span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13.5px}
+  .rail{padding:10px 0}
+  .rail-lab{margin-bottom:8px}
+
+  /* typevælgeren er kun et mockup-værktøj — den må ikke fylde som indhold */
+  .typebar{padding:9px 0}
+  .typebar b{font-size:9.5px;margin-bottom:6px}
+  .typebar a{font-size:12px;padding:7px 11px}
+
+  /* footeren: sidste kolonne stod alene og efterlod en tom celle */
+  .foot{padding:30px 0 18px}
+  .foot-top{gap:22px 18px}
+  .foot-col:last-child{grid-column:1 / -1;text-align:center}
+  .foot-brand img{max-width:150px}
+  .foot-brand p{font-size:13.5px;line-height:1.5;max-width:34ch}
+  .foot-col a,.foot-col p{font-size:14px;margin:0 0 6px}
+  .foot-bar{margin-top:18px;padding-top:14px}
+}
+
+/* ---------- telefon: footeren strammet hele vejen ---------- */
+@media(max-width:720px){
+  .foot{padding:26px 0 14px}
+  .foot-top{gap:18px 16px}
+  .foot-brand img{max-width:118px}
+  .foot-brand p{font-size:13px;line-height:1.45;margin-top:8px;max-width:32ch}
+  .foot-col h4{font-size:10px;letter-spacing:.16em;margin-bottom:8px}
+  .foot-col a,.foot-col p{font-size:13.5px;line-height:1.35;margin:0 0 5px}
+  .foot-bar{
+    margin-top:16px;padding-top:12px;font-size:11.5px;line-height:1.4;
+    flex-direction:row;flex-wrap:wrap;justify-content:center;gap:4px 14px;
+  }
+
+  /* typevælgeren er et mockup-værktøj, ikke indhold — mærkaten kan gå */
+  .typebar b{display:none}
+  .typebar{padding:8px 0}
+  .typebar a{font-size:11.5px;padding:6px 10px}
+}
+
+/* ---------- telefon: footerens links flyder i stedet for at stå i søjler ----------
+   Tre søjler med lange links bliver til ni-ti linjer på en telefon. Samme
+   indhold flydende på tværs fylder en tredjedel og er lige så let at ramme. */
+@media(max-width:720px){
+  .foot-top{display:block}
+  .foot-brand{margin-bottom:22px}
+  .foot-col{
+    display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;
+    gap:6px 14px;text-align:center;margin-bottom:16px;
+  }
+  .foot-col h4{width:100%;margin:0 0 6px}
+  .foot-col a,.foot-col p{margin:0;white-space:nowrap}
+  .foot-col a:not(:last-child)::after{content:"·";margin-left:14px;color:var(--cream-3)}
+}
+
+/* ---------- telefon: sidste stramning af footeren ---------- */
+@media(max-width:720px){
+  .foot-brand img{width:104px;max-width:104px;height:auto}
+  .foot-brand{margin-bottom:18px}
+  .foot-brand p{font-size:12.5px;line-height:1.4;margin-top:7px;max-width:30ch}
+  .foot-col{margin-bottom:13px}
+  .foot-bar{margin-top:14px;padding-top:11px;font-size:11px;gap:3px 12px}
+}
+
+/* ============================================================
+   SPØGELSESBILLEDER PÅ IOS
+   ------------------------------------------------------------
+   En klæbende bjælke der er halvgennemsigtig OG har
+   backdrop-filter, tvinger Safari til at genberegne en sløring
+   af alt bag den, hver gang der scrolles. På iOS fejler den
+   genberegning under momentum-scroll og efterlader et smør af
+   duplikeret indhold. Det bliver værre af, at <body> er
+   scroll-container (overflow-x:hidden i style.css).
+
+   Løsningen er ikke at slukke for designet, men at fjerne det
+   der ikke kan betale sig: bjælken bliver helt uigennemsigtig,
+   og de faste lag får deres eget kompositlag, så de ikke
+   males om sammen med siden.
+   ============================================================ */
+.rail{
+  background:var(--paper-2);              /* uigennemsigtig — ingen sløring at genberegne */
+  backdrop-filter:none;-webkit-backdrop-filter:none;
+}
+.rail,.progress,.float-cta{
+  transform:translateZ(0);                /* eget lag, males ikke om med siden */
+  -webkit-backface-visibility:hidden;backface-visibility:hidden;
+}
+/* .float-cta animerer sin egen transform — dens skjulte tilstand skal
+   stadig kunne skubbe den ned, så den får translateZ med i begge tilstande */
+.float-cta{transform:translate3d(0,20px,0)}
+.float-cta.on{transform:translate3d(0,0,0)}
+.float-cta:hover{transform:translate3d(0,-3px,0)}
+@media (prefers-reduced-motion: reduce){
+  .float-cta{transform:translate3d(0,0,0)}
+}
